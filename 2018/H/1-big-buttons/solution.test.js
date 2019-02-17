@@ -2,7 +2,7 @@
 const { solve, CaseParser } = require('./solution')
 
 test('1', () => {
-  const caseParser = new CaseParser(1)
+  const caseParser = new CaseParser()
   caseParser.readline('3 2')
   caseParser.readline('BBB')
   caseParser.readline('RB')
@@ -13,7 +13,7 @@ test('1', () => {
 })
 
 test('2', () => {
-  const caseParser = new CaseParser(2)
+  const caseParser = new CaseParser()
   caseParser.readline('5 1')
   caseParser.readline('R')
 
@@ -23,7 +23,7 @@ test('2', () => {
 })
 
 test('3', () => {
-  const caseParser = new CaseParser(3)
+  const caseParser = new CaseParser()
   caseParser.readline('4 3')
   caseParser.readline('R')
   caseParser.readline('B')
@@ -35,7 +35,7 @@ test('3', () => {
 })
 
 test('4', () => {
-  const caseParser = new CaseParser(4)
+  const caseParser = new CaseParser()
   caseParser.readline('50 5')
   caseParser.readline('BRBRBBBRBRRRBBB')
   caseParser.readline('BRBRBRRRBRRRBRB')
@@ -49,7 +49,7 @@ test('4', () => {
 })
 
 test('5', () => {
-  const caseParser = new CaseParser(5)
+  const caseParser = new CaseParser()
   caseParser.readline('5 2')
   caseParser.readline('RR')
   caseParser.readline('RB')
@@ -60,7 +60,7 @@ test('5', () => {
 })
 
 test('6', () => {
-  const caseParser = new CaseParser(6)
+  const caseParser = new CaseParser()
   caseParser.readline('50 2')
   caseParser.readline('B')
   caseParser.readline('R')

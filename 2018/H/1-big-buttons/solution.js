@@ -42,14 +42,9 @@ function getTrieBranches(node) {
 }
 
 class TrieNode {
-  constructor(value) {
-    this._value = value
+  constructor() {
     this.children = {}
     this.isPrefixEnded = false
-  }
-
-  get value() {
-    return this._value
   }
 }
 
@@ -58,7 +53,7 @@ class TrieNode {
 //
 class Trie {
   constructor() {
-    this.root = new TrieNode('')
+    this.root = new TrieNode()
   }
   
   add(prefix) {
@@ -83,7 +78,7 @@ class Trie {
 
   checkAddNode (char, node) {
     if (!node.children[char] && node.isPrefixEnded === false) {
-      node.children[char] = new TrieNode(char)
+      node.children[char] = new TrieNode()
     }
 
     return node.children[char]
@@ -113,9 +108,7 @@ class Trie {
 // CaseParser
 //
 class CaseParser {
-  constructor(caseNumber) {
-    this.caseNo = caseNumber
-
+  constructor() {
     this.N = 0
     this.P = 0
     this.currentP = 0
@@ -156,7 +149,6 @@ class CaseParser {
 
   getCase() {
     return {
-      caseNo: this.caseNo,
       N: this.N,
       P: this.P,
       prefixes: this.prefixes,
