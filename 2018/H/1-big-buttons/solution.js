@@ -23,10 +23,6 @@ function solve(data) {
   return initialTotal - subtractValues
 }
 
-var _toArray = function (arr) {
-  return Array.isArray(arr) ? arr : [].slice.call(arr);
-};
-
 function getTrieBranches(node) {
   if (!node) {
     return []
