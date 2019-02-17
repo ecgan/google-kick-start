@@ -1,10 +1,10 @@
- 
+
 'use strict'
 
 //
 // solve
 //
-function solve(data) {
+function solve (data) {
   if (data.trie.root.isPrefixEnded) {
     return 0
   }
@@ -23,7 +23,7 @@ function solve(data) {
   return initialTotal - subtractValues
 }
 
-function getTrieBranchLengths(node) {
+function getTrieBranchLengths (node) {
   if (!node) {
     return []
   }
@@ -32,8 +32,8 @@ function getTrieBranchLengths(node) {
     return [0]
   }
 
-  const branchB = getTrieBranchLengths(node.children.B).map(x => x+1)
-  const branchR = getTrieBranchLengths(node.children.R).map(x => x+1)
+  const branchB = getTrieBranchLengths(node.children.B).map(x => x + 1)
+  const branchR = getTrieBranchLengths(node.children.R).map(x => x + 1)
 
   const result = [].concat(branchB).concat(branchR)
 
@@ -41,7 +41,7 @@ function getTrieBranchLengths(node) {
 }
 
 class TrieNode {
-  constructor() {
+  constructor () {
     this.children = {}
     this.isPrefixEnded = false
   }
@@ -51,23 +51,23 @@ class TrieNode {
 // Trie
 //
 class Trie {
-  constructor() {
+  constructor () {
     this.root = new TrieNode()
   }
-  
-  add(prefix) {
+
+  add (prefix) {
     let currentTrieNode = this.root
     for (let index = 0; index < prefix.length; index++) {
-      const char = prefix[index];
+      const char = prefix[index]
 
       if (index === prefix.length - 1) {
         currentTrieNode = this.preCheckLastNode(char, currentTrieNode)
       }
 
       if (currentTrieNode.isPrefixEnded) {
-        return 
+        return
       }
-      
+
       currentTrieNode = this.checkAddNode(char, currentTrieNode)
     }
 
@@ -87,7 +87,7 @@ class Trie {
     const otherChar = this.getOtherChar(char)
 
     if (
-      !node.children[char] && 
+      !node.children[char] &&
       node.children[otherChar] &&
       node.children[otherChar].isPrefixEnded
     ) {
@@ -98,7 +98,7 @@ class Trie {
     return node
   }
 
-  getOtherChar(char) {
+  getOtherChar (char) {
     return char === 'B' ? 'R' : 'B'
   }
 }
@@ -107,17 +107,17 @@ class Trie {
 // CaseParser
 //
 class CaseParser {
-  constructor() {
+  constructor () {
     this.N = 0
     this.P = 0
     this.currentP = 0
     this.prefixes = []
     this.trie = new Trie()
-    
+
     this.state = '1'
   }
 
-  readline(line) {
+  readline (line) {
     switch (this.state) {
       case '1': {
         const firstLine = line.split(' ')
@@ -142,11 +142,11 @@ class CaseParser {
     }
   }
 
-  isComplete() {
+  isComplete () {
     return (this.state === 'done')
   }
 
-  getCase() {
+  getCase () {
     return {
       N: this.N,
       P: this.P,
@@ -160,7 +160,7 @@ class CaseParser {
 // ProblemParser
 //
 class ProblemParser {
-  constructor() {
+  constructor () {
     this.t = 0
     this.currentT = 0
     this.cases = []
@@ -168,14 +168,14 @@ class ProblemParser {
     this.state = 't'
   }
 
-  readline(line) {
+  readline (line) {
     switch (this.state) {
       case 't': {
         this.t = parseInt(line)
         this.state = 'case'
         break
       }
-    
+
       case 'case': {
         this.caseParser.readline(line)
 
@@ -194,11 +194,11 @@ class ProblemParser {
     }
   }
 
-  isComplete() {
+  isComplete () {
     return (this.state === 'done')
   }
 
-  getCases() {
+  getCases () {
     return this.cases
   }
 }
@@ -206,7 +206,7 @@ class ProblemParser {
 //
 // solveCases
 //
-function solveCases(cases) {
+function solveCases (cases) {
   for (let index = 0; index < cases.length; index++) {
     const result = solve(cases[index])
     console.log(`Case #${index + 1}: ${result}`)
@@ -216,7 +216,7 @@ function solveCases(cases) {
 //
 // Main
 //
-function main() {
+function main () {
   const readline = require('readline')
   const problemParser = new ProblemParser()
 
@@ -232,9 +232,9 @@ function main() {
       rl.close()
     }
   }).on('close', () => {
-      solveCases(problemParser.getCases())
-      process.exit(0)
-    }
+    solveCases(problemParser.getCases())
+    process.exit(0)
+  }
   )
 }
 
