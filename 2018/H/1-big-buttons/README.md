@@ -17,9 +17,9 @@ npm run test
 
 ### Trie data structure
 
-The solution makes use of the [trie](https://en.wikipedia.org/wiki/Trie) data structure. This allows us to achieve time and space efficiency in calculating number of invalid prefix strings. 
+The solution makes use of the [trie](https://en.wikipedia.org/wiki/Trie) data structure. This allows us to achieve time and space efficiency with no redundancy in calculating number of invalid prefix strings. 
 
-In each problem, the case parser will construct a new trie with an empty trie node as its root. When the case parser parse a prefix string, it will add the prefix string into the trie, where each trie node represents a character in the prefix string. This allows us to save space in memery, even more so when there are large number of strings.
+In each problem, the case parser will construct a new trie with an empty trie node as its root. When the case parser parse a prefix string, it will add the prefix string into the trie, where each trie node represents a character in the prefix string. This allows us to save space in memory, even more so when there are large number of strings.
 
 ```
 String 1: RRRB
@@ -117,4 +117,14 @@ R - R - R               # Length: 3
 
 The `getTrieBranches` function is a recursive function that returns the length of the branches (i.e. `[3, 5, 6]`). 
 
-With the lengths, the number of invalid strings is `sum( 2^(N - length) )`.
+With the lengths, we can get the number of invalid strings with `sum( 2^(N - length) )`.
+
+### Performance
+
+N = length of sequence
+P = number of forbidden prefix strings
+
+Generating the trie of prefix strings with no redundancy = O(P x N)
+
+Calculating the number of invalid strings = O(P x N)
+ 
