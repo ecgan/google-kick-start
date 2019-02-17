@@ -10,8 +10,8 @@ function solve(data) {
   }
 
   const initialTotal = Math.pow(2, data.N)
-  const branches = getTrieBranches(data.trie.root)
-  
+  const branches = getTrieBranchLengths(data.trie.root)
+
   const subtractValues = branches
     .map(b => {
       return Math.pow(2, data.N - b)
@@ -23,7 +23,7 @@ function solve(data) {
   return initialTotal - subtractValues
 }
 
-function getTrieBranches(node) {
+function getTrieBranchLengths(node) {
   if (!node) {
     return []
   }
@@ -32,11 +32,10 @@ function getTrieBranches(node) {
     return [0]
   }
 
-  const branchB = getTrieBranches(node.children.B).map(x => x+1)
-  const branchR = getTrieBranches(node.children.R).map(x => x+1)
+  const branchB = getTrieBranchLengths(node.children.B).map(x => x+1)
+  const branchR = getTrieBranchLengths(node.children.R).map(x => x+1)
 
-  let result = []
-  result = result.concat(branchB).concat(branchR)
+  const result = [].concat(branchB).concat(branchR)
 
   return result
 }
