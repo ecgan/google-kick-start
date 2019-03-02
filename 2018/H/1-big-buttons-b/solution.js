@@ -1,16 +1,10 @@
-
-'use strict'
-
-//
-// solve
-//
-function solve (data) {
-  if (data.trie.root.isPrefixEnded) {
+export const solve = (data) => {
+  if (data.trie.isPrefixEnded) {
     return 0
   }
 
   const initialTotal = Math.pow(2, data.N)
-  const branches = getTrieBranchLengths(data.trie.root)
+  const branches = getTrieBranchLengths(data.trie)
 
   const subtractValues = branches
     .map(b => {
@@ -32,87 +26,74 @@ function getTrieBranchLengths (node) {
     return [0]
   }
 
-  const branchB = getTrieBranchLengths(node.children.B).map(x => x + 1)
-  const branchR = getTrieBranchLengths(node.children.R).map(x => x + 1)
+  const branchB = getTrieBranchLengths(node.B).map(x => x + 1)
+  const branchR = getTrieBranchLengths(node.R).map(x => x + 1)
 
   const result = [].concat(branchB).concat(branchR)
 
   return result
 }
 
-class TrieNode {
-  constructor () {
-    this.children = {}
-    this.isPrefixEnded = false
+const addPrefixToTrie2 = (prefix, trie) => {
+  if (prefix.length === 0) {
+    return {
+      isPrefixEnded: true
+    }
   }
+
+  if (prefix.length === 1) {
+    trie = preCheckLastNode(prefix, trie)
+  }
+
+  if (trie.isPrefixEnded) {
+    return trie
+  }
+
+  const char = prefix.slice(0, 1)
+  const remainPrefix = prefix.slice(1)
+
+  const result = { ...trie }
+
+  if (!result[char] && result.isPrefixEnded === false) {
+    result[char] = {
+      isPrefixEnded: false
+    }
+  }
+
+  result[char] = addPrefixToTrie2(remainPrefix, result[char])
+
+  return result
 }
 
-//
-// Trie
-//
-class Trie {
-  constructor () {
-    this.root = new TrieNode()
-  }
-
-  add (prefix) {
-    let currentTrieNode = this.root
-    for (let index = 0; index < prefix.length; index++) {
-      const char = prefix[index]
-
-      if (index === prefix.length - 1) {
-        currentTrieNode = this.preCheckLastNode(char, currentTrieNode)
-      }
-
-      if (currentTrieNode.isPrefixEnded) {
-        return
-      }
-
-      currentTrieNode = this.checkAddNode(char, currentTrieNode)
-    }
-
-    currentTrieNode.isPrefixEnded = true
-    currentTrieNode.children = {}
-  }
-
-  checkAddNode (char, node) {
-    if (!node.children[char] && node.isPrefixEnded === false) {
-      node.children[char] = new TrieNode()
-    }
-
-    return node.children[char]
-  }
-
-  preCheckLastNode (char, node) {
-    const otherChar = this.getOtherChar(char)
-
-    if (
-      !node.children[char] &&
-      node.children[otherChar] &&
-      node.children[otherChar].isPrefixEnded
-    ) {
-      node.isPrefixEnded = true
-      node.children = {}
-    }
-
-    return node
-  }
-
-  getOtherChar (char) {
-    return char === 'B' ? 'R' : 'B'
-  }
+const getOtherChar = (char) => {
+  return char === 'B' ? 'R' : 'B'
 }
 
-//
-// CaseParser
-//
-class CaseParser {
+const preCheckLastNode = (char, node) => {
+  const otherChar = getOtherChar(char)
+
+  if (
+    !node[char] &&
+    node[otherChar] &&
+    node[otherChar].isPrefixEnded
+  ) {
+    return {
+      isPrefixEnded: true
+    }
+  }
+
+  return node
+}
+
+export const CaseParser = class {
   constructor () {
     this.N = 0
     this.P = 0
     this.currentP = 0
     this.prefixes = []
-    this.trie = new Trie()
+    this.trie = {
+      isPrefixEnded: false
+    }
 
     this.state = '1'
   }
@@ -130,7 +111,7 @@ class CaseParser {
 
       case 'rows': {
         this.prefixes.push(line)
-        this.trie.add(line)
+        this.trie = addPrefixToTrie2(line, this.trie)
         this.currentP++
 
         if (this.currentP === this.P) {
@@ -242,7 +223,7 @@ if (!module.parent) {
   main()
 }
 
-module.exports = {
-  solve,
-  CaseParser
-}
+// module.exports = {
+//   solve,
+//   CaseParser
+// }
