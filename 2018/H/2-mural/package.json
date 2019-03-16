@@ -21,8 +21,8 @@
   },
   "scripts": {
     "start": "node solution.build.js",
-    "test": "jest --watchAll",
-    "build": "rollup -c"
+    "test": "BABEL_ENV=test jest --watchAll",
+    "build": "BABEL_ENV=build rollup -c"
   },
   "keywords": [
     "google kick start",

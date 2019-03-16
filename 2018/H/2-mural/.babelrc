@@ -1,13 +1,24 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "modules": false,
-        "targets": {
-          "node": "4.8.2"
-        }
-      }
-    ]
-  ]
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env"
+        ]
+      ]
+    },
+    "build": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "modules": false,
+            "targets": {
+              "node": "4.8.2"
+            }
+          }
+        ]
+      ]
+    }
+  }
 }
