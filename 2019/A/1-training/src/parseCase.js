@@ -1,10 +1,11 @@
 export const parseCase = (line, data) => {
-  const result = { ...data }
+  const { isProcessing, ...result } = data
 
   if (!result.N) {
     const numbers = line.split(' ')
     result.N = parseInt(numbers[0])
     result.P = parseInt(numbers[1])
+    result.isProcessing = true
     return result
   }
 
@@ -12,7 +13,6 @@ export const parseCase = (line, data) => {
   result.students = numbers.map(n => {
     return parseInt(n)
   })
-  result.isComplete = true
 
   return result
 }

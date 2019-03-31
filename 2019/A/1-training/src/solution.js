@@ -13,7 +13,7 @@ const main = () => {
   let problem = {
     T: 0,
     cases: [],
-    isComplete: false
+    isProcessing: true
   }
 
   const rl = readline.createInterface({
@@ -24,7 +24,7 @@ const main = () => {
   rl.on('line', (line) => {
     problem = parseProblem(line, problem)
 
-    if (problem.isComplete) {
+    if (!problem.isProcessing) {
       rl.close()
     }
   }).on('close', () => {

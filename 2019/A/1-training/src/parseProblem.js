@@ -4,7 +4,8 @@ export const parseProblem = (line, problem) => {
   if (!problem.T || problem.T === 0) {
     const result = {
       ...problem,
-      T: parseInt(line)
+      T: parseInt(line),
+      isProcessing: true
     }
 
     return result
@@ -12,21 +13,21 @@ export const parseProblem = (line, problem) => {
 
   const cases = [...problem.cases]
 
-  if (cases.length === 0 || cases[cases.length - 1].isComplete === true) {
+  if (cases.length === 0 || !cases[cases.length - 1].isProcessing) {
     cases.push({
-      isComplete: false
+      isProcessing: true
     })
   }
 
   const currentCase = cases[cases.length - 1]
   cases[cases.length - 1] = parseCase(line, currentCase)
 
-  const isComplete = (cases.length === problem.T && cases[cases.length - 1].isComplete)
+  const isProcessing = (cases.length < problem.T || cases[cases.length - 1].isProcessing)
 
   const result = {
     ...problem,
     cases,
-    isComplete
+    isProcessing
   }
 
   return result
