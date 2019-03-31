@@ -34,6 +34,42 @@ function _objectSpread(target) {
   return target;
 }
 
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+
+  var target = _objectWithoutPropertiesLoose(source, excluded);
+
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
 }
@@ -55,13 +91,15 @@ function _nonIterableSpread() {
 }
 
 var parseCase = function parseCase(line, data) {
-  var result = _objectSpread({}, data);
+  var isProcessing = data.isProcessing,
+      result = _objectWithoutProperties(data, ["isProcessing"]);
 
   if (!result.N) {
     var _numbers = line.split(' ');
 
     result.N = parseInt(_numbers[0]);
     result.P = parseInt(_numbers[1]);
+    result.isProcessing = true;
     return result;
   }
 
@@ -69,14 +107,14 @@ var parseCase = function parseCase(line, data) {
   result.students = numbers.map(function (n) {
     return parseInt(n);
   });
-  result.isComplete = true;
   return result;
 };
 
 var parseProblem = function parseProblem(line, problem) {
   if (!problem.T || problem.T === 0) {
     var _result = _objectSpread({}, problem, {
-      T: parseInt(line)
+      T: parseInt(line),
+      isProcessing: true
     });
 
     return _result;
@@ -84,19 +122,19 @@ var parseProblem = function parseProblem(line, problem) {
 
   var cases = _toConsumableArray(problem.cases);
 
-  if (cases.length === 0 || cases[cases.length - 1].isComplete === true) {
+  if (cases.length === 0 || !cases[cases.length - 1].isProcessing) {
     cases.push({
-      isComplete: false
+      isProcessing: true
     });
   }
 
   var currentCase = cases[cases.length - 1];
   cases[cases.length - 1] = parseCase(line, currentCase);
-  var isComplete = cases.length === problem.T && cases[cases.length - 1].isComplete;
+  var isProcessing = cases.length < problem.T || cases[cases.length - 1].isProcessing;
 
   var result = _objectSpread({}, problem, {
     cases,
-    isComplete
+    isProcessing
   });
 
   return result;
@@ -149,7 +187,7 @@ var main = function main() {
   var problem = {
     T: 0,
     cases: [],
-    isComplete: false
+    isProcessing: true
   };
   var rl = readline.createInterface({
     input: process.stdin,
@@ -158,7 +196,7 @@ var main = function main() {
   rl.on('line', function (line) {
     problem = parseProblem(line, problem);
 
-    if (problem.isComplete) {
+    if (!problem.isProcessing) {
       rl.close();
     }
   }).on('close', function () {
