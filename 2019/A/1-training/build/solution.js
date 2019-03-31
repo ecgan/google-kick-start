@@ -103,32 +103,33 @@ var parseProblem = function parseProblem(line, problem) {
 };
 
 var solve = function solve(data) {
-  var N = data.N,
-      P = data.P,
+  var P = data.P,
       _data$students = data.students,
       students = _data$students === void 0 ? [] : _data$students;
-  students.sort(function (a, b) {
+
+  var sorted = _toConsumableArray(students).sort(function (a, b) {
     return a - b;
   });
-  var lineSum = 0;
-  var hillSum = 0;
+
+  var hillDiffSum = 0;
+  var baseDiffSum = 0;
 
   for (var i = 1; i < P; i++) {
-    var diff = students[i] - students[i - 1];
-    hillSum += diff * i;
-    lineSum += diff;
+    var diff = sorted[i] - sorted[i - 1];
+    hillDiffSum += diff * i;
+    baseDiffSum += diff;
   }
 
-  var min = hillSum;
+  var min = hillDiffSum;
 
-  for (var _i = P; _i < students.length; _i++) {
-    var headDiff = students[_i] - students[_i - 1];
-    var tailDiff = students[_i - (P - 1)] - students[_i - P];
-    hillSum = hillSum - lineSum + headDiff * (P - 1);
-    lineSum = lineSum + headDiff - tailDiff;
+  for (var _i = P; _i < sorted.length; _i++) {
+    var headDiff = sorted[_i] - sorted[_i - 1];
+    var tailDiff = sorted[_i - (P - 1)] - sorted[_i - P];
+    hillDiffSum = hillDiffSum - baseDiffSum + headDiff * (P - 1);
+    baseDiffSum = baseDiffSum + headDiff - tailDiff;
 
-    if (hillSum < min) {
-      min = hillSum;
+    if (hillDiffSum < min) {
+      min = hillDiffSum;
     }
   }
 
