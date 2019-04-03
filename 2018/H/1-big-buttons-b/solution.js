@@ -34,7 +34,7 @@ function getTrieBranchLengths (node) {
   return result
 }
 
-const addPrefixToTrie2 = (prefix, trie) => {
+const addPrefixToTrie = (prefix, trie) => {
   if (prefix.length === 0) {
     return {
       isPrefixEnded: true
@@ -60,7 +60,7 @@ const addPrefixToTrie2 = (prefix, trie) => {
     }
   }
 
-  result[char] = addPrefixToTrie2(remainPrefix, result[char])
+  result[char] = addPrefixToTrie(remainPrefix, result[char])
 
   return result
 }
@@ -111,7 +111,7 @@ export const CaseParser = class {
 
       case 'rows': {
         this.prefixes.push(line)
-        this.trie = addPrefixToTrie2(line, this.trie)
+        this.trie = addPrefixToTrie(line, this.trie)
         this.currentP++
 
         if (this.currentP === this.P) {
@@ -222,8 +222,3 @@ function main () {
 if (!module.parent) {
   main()
 }
-
-// module.exports = {
-//   solve,
-//   CaseParser
-// }
