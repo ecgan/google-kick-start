@@ -1,7 +1,7 @@
 {
   "name": "1-big-buttons",
   "version": "1.0.0",
-  "description": "",
+  "description": "Solution for Google Kick Start 2018 Round H problem, Big Buttons.",
   "main": "solution.js",
   "devDependencies": {
     "eslint": "^5.14.0",
@@ -16,11 +16,8 @@
     "test": "jest --watchAll"
   },
   "keywords": [
-    "big",
-    "buttons",
-    "google",
-    "kick",
-    "start"
+    "big buttons",
+    "google kick start"
   ],
   "author": "Gan Eng Chin",
   "license": "MIT"

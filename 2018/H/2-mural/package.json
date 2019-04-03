@@ -20,7 +20,7 @@
     "rollup-plugin-node-resolve": "^4.0.1"
   },
   "scripts": {
-    "start": "node solution.build.js",
+    "start": "node build/solution.js",
     "test": "BABEL_ENV=test jest --watchAll",
     "build": "BABEL_ENV=build rollup -c"
   },
