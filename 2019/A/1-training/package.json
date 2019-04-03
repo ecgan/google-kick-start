@@ -1,7 +1,7 @@
 {
-  "name": "mural",
+  "name": "training",
   "version": "1.0.0",
-  "description": "Solution for Google Kick Start 2018 Round H problem, Mural.",
+  "description": "Solution for Google Kick Start 2019 Round A problem, Training.",
   "main": "solution.js",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
